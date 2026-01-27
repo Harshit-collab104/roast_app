@@ -1,0 +1,6 @@
+.env
+.env.*
+__pycache__/
+.venv/
+services/__pycache__/
+services/games/__pycache__/
