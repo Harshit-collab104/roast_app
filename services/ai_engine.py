@@ -5,27 +5,78 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client=genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
-async def generate_roast_stream(game_name,player_data, context):
 
-    prompt=f"""
-    Roast this {game_name} player!
-    Stats:
-    {player_data}
-
-    Context/Details:
-    {context}
+async def generate_roast_stream(game_name: str, player_data: str, context: str):
+    """
+    Streams a roast response for the given game.
+    Supports Clash Royale and Valorant.
     """
 
-    response=client.models.generate_content_stream(
+    # ---------- GAME-SPECIFIC SYSTEM INSTRUCTIONS ----------
+    if game_name.lower() == "clash_royale":
+        system_instruction = (
+            "You are a rude, hilarious, and witty roast master for video games. "
+            "You are roasting a Clash Royale player. "
+            "Focus heavily on win rate, Path of Legends rank, ladder trophies, "
+            "challenge wins, and recent battle performance. "
+            "Look carefully at the recent battle log. "
+            "If they lost to a strange or low-skill deck, mock them mercilessly. "
+            "If they have multiple losses, roast them harder. "
+            "If they use Elite Barbarians, Elixir Golem, Mega Knight, Freeze, "
+            "or other low-skill cards, insult their lack of game sense. "
+            "Suggest realistic deck improvements to help them win more games, "
+            "but do it sarcastically. "
+            "Keep the roast banter-friendly, not toxic. "
+            "Do not put quotes around card names or game terms."
+        )
+
+    elif game_name.lower() == "valorant":
+        system_instruction = (
+            "You are a savage but witty Valorant roast master. "
+            "Roast the player based on rank, K/D ratio, headshot percentage, "
+            "win rate, agent choices, and recent match performance. "
+            "If they are hard-stuck in low elo, call it out brutally. "
+            "If their K/D is negative, question their aim and crosshair placement. "
+            "If they instalock Duelists but bottom-frag, roast them relentlessly. "
+            "If they play support agents but have no impact, mock their utility usage. "
+            "If they die first every round, call them a walking ult orb. "
+            "Offer sarcastic but useful tips to improve aim, positioning, "
+            "and agent selection. "
+            "Keep it funny, sharp, and specific to their stats. "
+            "Do not use quotes around agent names or Valorant terms."
+        )
+
+    else:
+        system_instruction = (
+            "You are a witty video game roast master. "
+            "Roast the player using their provided stats and recent performance. "
+            "Be funny, sharp, and banter-friendly."
+        )
+
+    # ---------- USER PROMPT ----------
+    prompt = f"""
+Roast this {game_name} player.
+
+PLAYER STATS:
+{player_data}
+
+ADDITIONAL CONTEXT:
+{context}
+
+Make the roast specific, brutal, and funny.
+"""
+
+    # ---------- STREAMING RESPONSE ----------
+    response = client.models.generate_content_stream(
         model="gemini-2.5-flash",
         config=types.GenerateContentConfig(
-            system_instruction=f"You are a rude, hilarious and witty roast master on video games. You are roasting a {game_name} player. Keep it banter freindly and focus on their specific stats depending on the game. For clash royale specifically suggest edits to the deck so that the player can win more games.Since most games have win rate judge them highly on that. Look at the Recent Battle Log carefully. If they lost to a weird deck, roast them for it. If they have a ""Loss"" streak, destroy them.If they use ""Elite Barbarians"", ""Elixir Golem"", or ""Mega Knight"", roast their lack of skill.Dont put quotes on card names or game terms.",
-    ),
-        contents=prompt 
+            system_instruction=system_instruction
+        ),
+        contents=prompt
     )
 
-
     for chunk in response:
-        yield chunk.text
+        if chunk.text:
+            yield chunk.text

@@ -5,7 +5,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from services.games.clash_royale import ClashRoyale
 from services.ai_engine import generate_roast_stream
-
+from services.games.valorant import Valorant
 app = FastAPI()
 
 
@@ -16,7 +16,8 @@ class RoastRequest(BaseModel):
     player_id:str
 
 Games={
-    "clash_royale": ClashRoyale()
+    "clash_royale": ClashRoyale(),
+    "valorant":Valorant()
 }
 
 

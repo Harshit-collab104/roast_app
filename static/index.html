@@ -1,39 +1,40 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameRoast AI</title>
-    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css?v=2">
 </head>
 
-<body>  
+<body>
     <div class="container">
         <header>
-            <h1> Game Roast AI 🔥</h1>
-            <p> Select your preferred game to be humbled by AI</p>
+            <h1>Game Roast AI 🔥</h1>
+            <p>Select your preferred game to be humbled by AI</p>
         </header>
-    
-    <div class="game-select">
-        <button class="game-btn active" data-game="clash_royale">
-            <span class="button-content">Clash Royale</span>
-        </button>
+
+        <div class="game-select">
+            <button class="game-btn clash active" data-game="clash_royale">
+                <span class="button-content">Clash Royale</span>
+            </button>
+
+            <button class="game-btn valorant" data-game="valorant">
+                <span class="button-content">Valorant</span>
+            </button>
+        </div>
+
+        <div class="input-section">
+            <input type="text" id="playerTag" placeholder="Enter Player Tag (e.g. #2P090...)">
+            <button id="roastBtn" onclick="getRoast()">ROAST ME</button>
+        </div>
+
+        <div id="result-area" class="result-box hidden">
+            <h3>The Roast</h3>
+            <p id="roastText"></p>
+        </div>
     </div>
 
-    <div class="input-section">
-        <input type="text" id="playerTag" placeholder="Enter player tag">
-        <button id="roastBtn" onclick="getRoast()"> ROAST ME </button>
-    </div>
-
-    <div id="result-area" class="result-box hidden">
-        <h3>The Roast</h3>
-        <p id="roastText"></p>
-    </div>
-</div>
-
-<script src="script.js"></script>
-    
+    <script src="/static/script.js?v=2"></script>
 </body>
 </html>
