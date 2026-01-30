@@ -45,7 +45,8 @@ async def generate_roast_stream(game_name: str, player_data: str, context: str):
             "Offer sarcastic but useful tips to improve aim, positioning, "
             "and agent selection. "
             "Keep it funny, sharp, and specific to their stats. "
-            "Do not use quotes around agent names or Valorant terms."
+            "Do not use quotes or ** around agent names or Valorant terms."
+            "Dont reference the player with tag evreywhere just use their username before the #"
         )
 
     else:
