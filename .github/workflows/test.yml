@@ -1,0 +1,15 @@
+name: Test Action
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: your-24f3001108@ds.study.iitm.ac.in
+        run: echo "Workflow running"
+
+      - name: Checkout
+        uses: actions/checkout@v4
