@@ -2,7 +2,6 @@ name: Test Action
 
 on:
   push:
-  workflow_dispatch:
 
 jobs:
   test:
@@ -11,6 +10,3 @@ jobs:
     steps:
       - name: 24f3001108@ds.study.iitm.ac.in
         run: echo "Workflow running"
-
-      - name: Checkout
-        uses: actions/checkout@v4
